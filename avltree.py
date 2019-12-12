@@ -85,6 +85,8 @@ class BinaryTreeNode(object):
         if self.right:
             right_height = 1 + self.right.height()
         
+        self.balance_children()
+
         if left_height > right_height:
             return left_height
         else:
@@ -95,7 +97,9 @@ class BinarySearchTree(object):
 
     def __init__(self, items=None):
         """Initialize this binary search tree and insert the given items."""
+        self.top_root = BinaryTreeNode('test')
         self.root = None
+        self.top_root.right = self.root
         self.size = 0
         if items is not None:
             for item in items:
@@ -159,6 +163,7 @@ class BinarySearchTree(object):
             parent.right = new_node
         # TODO: Increase the tree size
         self.size += 1
+        self.top_root.height()
 
     def _find_node_iterative(self, item):
         """Return the node containing the given item in this binary search tree,
@@ -395,8 +400,8 @@ class BinarySearchTree(object):
 
 def test_binary_search_tree():
     # Create a complete binary search tree of 3, 7, or 15 items in level-order
-    # items = [2, 1, 3]
-    items = [4, 2, 6, 1, 3, 5, 7]
+    items = [1,2,3]
+    # items = [4,2,6,1,3,5,7]
     # items = [8, 4, 12, 2, 6, 10, 14, 1, 3, 5, 7, 9, 11, 13, 15]
     print('items: {}'.format(items))
 
@@ -427,12 +432,10 @@ def test_binary_search_tree():
 
 if __name__ == '__main__':
     # test_binary_search_tree()
-    items = [4, 2, 6]
+    items = [6,2,4]
     tree = BinarySearchTree(items=items)
     print(tree)
     print(tree.root)
     print(tree.root.left)#!python
-
-from queue import Queue
 
 
