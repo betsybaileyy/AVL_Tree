@@ -29,7 +29,7 @@ class BinaryTreeNode(object):
         else:
             return False
 
-    def get_balance(self):
+    def get_balance(self, node):
         if node is None:
             return 0
 
@@ -108,9 +108,7 @@ class BinarySearchTree(object):
 
     def __init__(self, items=None):
         """Initialize this binary search tree and insert the given items."""
-        self.top_root = BinaryTreeNode('test')
-        self.root = None
-        self.top_root.right = self.root
+        self.root = BinaryTreeNode(1000000)
         self.size = 0
         if items is not None:
             for item in items:
@@ -167,7 +165,7 @@ class BinarySearchTree(object):
             parent.right = new_node
         # Increase the tree size
         self.size += 1
-        self.top_root.height()
+        self.root.height()
 
     def _find_node_iterative(self, item):
         """Return the node containing the given item in this binary search tree,
@@ -362,7 +360,7 @@ class BinarySearchTree(object):
 
 def test_binary_search_tree():
     # Create a complete binary search tree of 3, 7, or 15 items in level-order
-    items = [1,2,3]
+    items = [7, 2, 6, 1, 3, 5, 4]
     # items = [4,2,6,1,3,5,7]
     # items = [8, 4, 12, 2, 6, 10, 14, 1, 3, 5, 7, 9, 11, 13, 15]
     print('items: {}'.format(items))
@@ -392,8 +390,11 @@ def test_binary_search_tree():
     print('items level-order: {}'.format(tree.items_level_order()))
 
 if __name__ == '__main__':
-    items = [6,2,4]
+    items = [2, 6, 4, 3]
     tree = BinarySearchTree(items=items)
     print(tree)
-    print(tree.root)
     print(tree.root.left)
+    print(tree.root.left.left)#!python
+    print(tree.root.left.right)
+    print(tree.root.left.right.left)
+    print(tree.root.left.right.left.left)
