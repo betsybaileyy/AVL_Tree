@@ -31,6 +31,9 @@ class BinaryTreeNode(object):
         else:
             return False
 
+    def balancer(self):
+        balance_factor = self.right.height() - self.left.height()
+        
     def height(self):
         """Return the height of this node (the number of edges on the longest
         downward path from this node to a descendant leaf node).
