@@ -31,6 +31,9 @@ class BinaryTreeNode(object):
         else:
             return False
 
+    def get_balance(self):
+        return self.right.height() - self.left.height()
+
     def balancer(self):
         balance_factor = self.right.height() - self.left.height()
         
