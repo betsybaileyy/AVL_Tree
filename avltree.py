@@ -30,42 +30,56 @@ class BinaryTreeNode(object):
             return False
 
     def get_balance(self):
-        return self.right.height() - self.left.height()
+        if node is None:
+            return 0
+
+        return self.get_height(node.right) - self.get_height(node.left)
+
+    def get_height(self, node):
+        if node is None:
+            return 0
+        
+        return node.height()
+    
 
     def balance_children(self):
         self.left = self.balancer(self.left)
         self.right = self.balancer(self.right)
 
     def balancer(self, node):
-        if node.get_balance() <= -2:
-            # Left Left
-        if node.left.get_balance() <= -1:
-            return self.left_rotation(node)
+        if node is None:
+            return node
+
+        if self.get_balance(node) <= -2:
+            if self.get_balance(node.left) <= -1:
+                return self.right_rotation(node)
 
             else:
                 node.left = self.left_rotation(node.left)
                 return self.right_rotation(node)
-        else:
-            # Right Right
-            if node.right.get_balance() >= 1:
-                return self.right_rotation(node)
-                
+
+        elif self.get_balance(node) >= 2:
+            if self.get_balance(node.right) >= 1:
+                return self.left_rotation(node)
+
             else:
                 node.right = self.right_rotation(node.right)
-                return self.left_location(node)
+                return self.left_rotation(node)
 
         return node
 
     def left_rotation(self, node):
+        print('left rotation')
         right_child = node.right
         node.right = None
         right_child.left = node
         return right_child
 
     def right_rotation(self, node):
-        left_child = node.left_child
-        node.left = None
+        print('right rotation')
+        left_child = node.left
         left_child.right = node
+
         return left_child
         
     def height(self):
