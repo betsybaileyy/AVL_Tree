@@ -34,21 +34,29 @@ class BinaryTreeNode(object):
     def get_balance(self):
         return self.right.height() - self.left.height()
 
-    def balancer(self):
-        if self.get_balance() <= -2:
+    def balance_children(self):
+        self.left = self.balancer(self.left)
+        self.right = self.balancer(self.right)
+
+    def balancer(self, node):
+        if node.get_balance() <= -2:
             # Left Left
-            if self.left.balance() <= -1:
-                pass # Right
+        if node.left.get_balance() <= -1:
+            return self.left_rotation(node)
 
             else:
-                pass # Left Right
+                node.left = self.left_rotation(node.left)
+                return self.right_rotation(node)
         else:
             # Right Right
-            if self.right.balance() >= 1:
-                pass # Left
+            if node.right.get_balance() >= 1:
+                return self.right_rotation(node)
                 
             else:
-                pass # Right Left
+                node.right = self.right_rotation(node.right)
+                return self.left_location(node)
+
+        return node
         
     def height(self):
         """Return the height of this node (the number of edges on the longest
