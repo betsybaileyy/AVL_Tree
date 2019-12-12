@@ -57,6 +57,18 @@ class BinaryTreeNode(object):
                 return self.left_location(node)
 
         return node
+
+    def left_rotation(self, node):
+        right_child = node.right
+        node.right = None
+        right_child.left = node
+        return right_child
+
+    def right_rotation(self, node):
+        left_child = node.left_child
+        node.left = None
+        left_child.right = node
+        return left_child
         
     def height(self):
         """Return the height of this node (the number of edges on the longest
