@@ -1,6 +1,6 @@
 #!python3
 
-from prefixtreenode import PrefixTreeNode
+from prefix_tree_node import PrefixTreeNode
 
 
 class PrefixTree:

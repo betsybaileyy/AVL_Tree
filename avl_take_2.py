@@ -5,14 +5,14 @@ from queue import Queue
 class AVLTreeNode(object):
 
     def __init__(self, data):
-        """Initialize this binary tree node with the given data."""
+        """Initialize this avl tree node with the given data."""
         self.data = data
         self.left = None
         self.right = None
 
     def __repr__(self):
-        """Return a string representation of this binary tree node."""
-        return 'BinaryTreeNode({!r})'.format(self.data)
+        """Return a string representation of this avl tree node."""
+        return 'AVLTreeNode({!r})'.format(self.data)
 
     def is_leaf(self):
         """Return True if this node is a leaf (has no children)."""
@@ -133,22 +133,22 @@ class AVLTreeNode(object):
             return right_height
 
 
-class BinarySearchTree(object):
+class AVLTree(object):
 
     def __init__(self, items=None):
-        """Initialize this binary search tree and insert the given items."""
-        self.root = BinaryTreeNode(1000000)
+        """Initialize this AVL tree and insert the given items."""
+        self.root = AVLTreeNode(1000000)
         self.size = 0
         if items is not None:
             for item in items:
                 self.insert(item)
 
     def __repr__(self):
-        """Return a string representation of this binary search tree."""
-        return 'BinarySearchTree({} nodes)'.format(self.size)
+        """Return a string representation of this AVL tree."""
+        return 'AVLTree({} nodes)'.format(self.size)
 
     def is_empty(self):
-        """Return True if this binary search tree is empty (has no nodes)."""
+        """Return True if this tree is empty (has no nodes)."""
         return self.root is None
 
     def height(self):
@@ -158,14 +158,14 @@ class BinarySearchTree(object):
         return self.root.height()
 
     def contains(self, item):
-        """Return True if this binary search tree contains the given item."""
+        """Return True if this tree contains the given item."""
         # Find a node with the given item, if any
         node = self._find_node_recursive(item, self.root)
         # Return True if a node was found, or False
         return node is not None
 
     def search(self, item):
-        """Return an item in this binary search tree matching the given item,
+        """Return an item in this tree matching the given item,
         or None if the given item is not found."""
         # Find a node with the given item, if any
         node = self._find_node_recursive(item, self.root)
@@ -173,9 +173,9 @@ class BinarySearchTree(object):
         return node.data if node else None
 
     def insert(self, item):
-        """Insert the given item in order into this binary search tree."""
+        """Insert the given item in order into this tree."""
         # Handle the case where the tree is empty
-        new_node = BinaryTreeNode(item)
+        new_node = AVLTreeNode(item)
         if self.is_empty():
             # Create a new root node
             self.root = new_node
@@ -197,7 +197,7 @@ class BinarySearchTree(object):
         self.root.height()
 
     def _find_node_iterative(self, item):
-        """Return the node containing the given item in this binary search tree,
+        """Return the node containing the given item in this tree,
         or None if the given item is not found. Search is performed iteratively
         starting from the root node."""
         # Start with the root node
@@ -220,7 +220,7 @@ class BinarySearchTree(object):
         return None
 
     def _find_node_recursive(self, item, node):
-        """Return the node containing the given item in this binary search tree,
+        """Return the node containing the given item in this tree,
         or None if the given item is not found. Search is performed recursively
         starting from the given node (give the root node to start recursion)."""
         # Check if starting node exists
@@ -292,7 +292,7 @@ class BinarySearchTree(object):
 
 
     def items_in_order(self):
-        """Return an in-order list of all items in this binary search tree."""
+        """Return an in-order list of all items in this tree."""
         items = []
         if not self.is_empty():
             # Traverse tree in-order from root, appending each node's item
@@ -301,7 +301,7 @@ class BinarySearchTree(object):
         return items
 
     def _traverse_in_order_recursive(self, node, visit):
-        """Traverse this binary tree with recursive in-order traversal (DFS).
+        """Traverse this tree with recursive in-order traversal (DFS).
         Start at the given node and visit each node with the given function."""
         # Traverse left subtree, if it exists
         if node is not None:
@@ -314,7 +314,7 @@ class BinarySearchTree(object):
             self._traverse_in_order_recursive(node.right, visit)
 
     def items_pre_order(self):
-        """Return a pre-order list of all items in this binary search tree."""
+        """Return a pre-order list of all items in this tree."""
         items = []
         if not self.is_empty():
             # Traverse tree pre-order from root, appending each node's item
@@ -323,7 +323,7 @@ class BinarySearchTree(object):
         return items
 
     def _traverse_pre_order_recursive(self, node, visit):
-        """Traverse this binary tree with recursive pre-order traversal (DFS).
+        """Traverse this tree with recursive pre-order traversal (DFS).
         Start at the given node and visit each node with the given function."""
         # Visit this node's data with given function
         if node is not None:
@@ -336,7 +336,7 @@ class BinarySearchTree(object):
                 self._traverse_pre_order_recursive(node.right, visit)
 
     def items_post_order(self):
-        """Return a post-order list of all items in this binary search tree."""
+        """Return a post-order list of all items in this tree."""
         items = []
         if not self.is_empty():
             # Traverse tree post-order from root, appending each node's item
@@ -345,7 +345,7 @@ class BinarySearchTree(object):
         return items
 
     def _traverse_post_order_recursive(self, node, visit):
-        """Traverse this binary tree with recursive post-order traversal (DFS).
+        """Traverse this with recursive post-order traversal (DFS).
         Start at the given node and visit each node with the given function."""
         # Traverse left subtree, if it exists
         if node is not None:
@@ -359,7 +359,7 @@ class BinarySearchTree(object):
 
 
     def items_level_order(self):
-        """Return a level-order list of all items in this binary search tree."""
+        """Return a level-order list of all items in this AVL search tree."""
         items = []
         if not self.is_empty():
             # Traverse tree level-order from root, appending each node's item
@@ -367,34 +367,34 @@ class BinarySearchTree(object):
         # Return level-order list of all items in tree
         return items
 
-    def _traverse_level_order_iterative(self, start_node, visit):
-        """Traverse this binary tree with iterative level-order traversal (BFS).
-        Start at the given node and visit each node with the given function."""
-        # Create queue to store nodes not yet traversed in level-order
-        queue = Queue()
-        # Enqueue given starting node
-        queue.enqueue(start_node)
-        # Loop until queue is empty
-        while not queue.is_empty():
-            # Dequeue node at front of queue
-            node = queue.dequeue()
-            # Visit this node's data with given function
-            visit(node.data)
-            # Enqueue this node's left child, if it exists
-            if node.left:
-                queue.enqueue(node.left)
-            # Enqueue this node's right child, if it exists
-            if node.right:
-                queue.enqueue(node.right)
+    # def _traverse_level_order_iterative(self, start_node, visit):
+    #     """Traverse this AVL tree with iterative level-order traversal (BFS).
+    #     Start at the given node and visit each node with the given function."""
+    #     # Create queue to store nodes not yet traversed in level-order
+    #     queue = Queue()
+    #     # Enqueue given starting node
+    #     queue.enqueue(start_node)
+    #     # Loop until queue is empty
+    #     while not queue.is_empty():
+    #         # Dequeue node at front of queue
+    #         node = queue.dequeue()
+    #         # Visit this node's data with given function
+    #         visit(node.data)
+    #         # Enqueue this node's left child, if it exists
+    #         if node.left:
+    #             queue.enqueue(node.left)
+    #         # Enqueue this node's right child, if it exists
+    #         if node.right:
+    #             queue.enqueue(node.right)
 
-def test_binary_search_tree():
-    # Create a complete binary search tree of 3, 7, or 15 items in level-order
+def test_AVL_tree():
+    # Create a complete AVL search tree of 3, 7, or 15 items in level-order
     items = [7, 2, 6, 1, 3, 5, 4]
     # items = [4,2,6,1,3,5,7]
     # items = [8, 4, 12, 2, 6, 10, 14, 1, 3, 5, 7, 9, 11, 13, 15]
     print('items: {}'.format(items))
 
-    tree = BinarySearchTree()
+    tree = AVLTree()
     print('tree: {}'.format(tree))
     print('root: {}'.format(tree.root))
 
@@ -420,7 +420,7 @@ def test_binary_search_tree():
 
 if __name__ == '__main__':
     items = [2, 6, 4, 3]
-    tree = BinarySearchTree(items=items)
+    tree = AVLTree(items=items)
     print(tree)
     print(tree.root.left)
     print(tree.root.left.left)#!python
