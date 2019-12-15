@@ -48,7 +48,7 @@ class AVLTreeNode(object):
         
         return node.height()
     
-
+ 
     def balance_children(self):
         # Calls balancer on both children
         self.left = self.balancer(self.left)
@@ -367,25 +367,25 @@ class AVLTree(object):
         # Return level-order list of all items in tree
         return items
 
-    # def _traverse_level_order_iterative(self, start_node, visit):
-    #     """Traverse this AVL tree with iterative level-order traversal (BFS).
-    #     Start at the given node and visit each node with the given function."""
-    #     # Create queue to store nodes not yet traversed in level-order
-    #     queue = Queue()
-    #     # Enqueue given starting node
-    #     queue.enqueue(start_node)
-    #     # Loop until queue is empty
-    #     while not queue.is_empty():
-    #         # Dequeue node at front of queue
-    #         node = queue.dequeue()
-    #         # Visit this node's data with given function
-    #         visit(node.data)
-    #         # Enqueue this node's left child, if it exists
-    #         if node.left:
-    #             queue.enqueue(node.left)
-    #         # Enqueue this node's right child, if it exists
-    #         if node.right:
-    #             queue.enqueue(node.right)
+    def _traverse_level_order_iterative(self, start_node, visit):
+        """Traverse this AVL tree with iterative level-order traversal (BFS).
+        Start at the given node and visit each node with the given function."""
+        # Create queue to store nodes not yet traversed in level-order
+        queue = Queue()
+        # Enqueue given starting node
+        queue.enqueue(start_node)
+        # Loop until queue is empty
+        while not queue.is_empty():
+            # Dequeue node at front of queue
+            node = queue.dequeue()
+            # Visit this node's data with given function
+            visit(node.data)
+            # Enqueue this node's left child, if it exists
+            if node.left:
+                queue.enqueue(node.left)
+            # Enqueue this node's right child, if it exists
+            if node.right:
+                queue.enqueue(node.right)
 
 def test_AVL_tree():
     # Create a complete AVL search tree of 3, 7, or 15 items in level-order
@@ -420,10 +420,11 @@ def test_AVL_tree():
 
 if __name__ == '__main__':
     items = [2, 6, 4, 3]
-    tree = AVLTree(items=items)
+    tree = AVLTree(items)
     print(tree)
-    print(tree.root.left)
-    print(tree.root.left.left)#!python
-    print(tree.root.left.right)
-    print(tree.root.left.right.left)
-    print(tree.root.left.right.left.left)
+    # print(tree)
+    # print(tree.root.left)
+    # print(tree.root.left.left)#!python
+    # print(tree.root.left.right)
+    # print(tree.root.left.right.left)
+    # print(tree.root.left.right.left.left)
