@@ -2,7 +2,7 @@
 
 from queue import Queue
 
-class BinaryTreeNode(object):
+class AVLTreeNode(object):
 
     def __init__(self, data):
         """Initialize this binary tree node with the given data."""
