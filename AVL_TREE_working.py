@@ -1,7 +1,6 @@
 #!python
 
 from queue import Queue
-# from draw_me import PrintBTree
 import random
 
 class AVLTreeNode(object):
