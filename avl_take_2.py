@@ -9,10 +9,25 @@ class AVLTreeNode(object):
         self.data = data
         self.left = None
         self.right = None
+        self.height = 0
 
     def __repr__(self):
         """Return a string representation of this avl tree node."""
         return 'AVLTreeNode({!r})'.format(self.data)
+    
+    def contains_left_node(self):
+        """Returns true/false if there is a left node"""
+        if self.left == None:
+            return False
+        else:
+            return True
+
+    def contains_right_node(self):
+        """Returns true/false if there is a right node"""
+        if self.right == None:
+            return False
+        else:
+            return True
 
     def is_leaf(self):
         """Return True if this node is a leaf (has no children)."""
