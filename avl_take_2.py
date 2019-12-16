@@ -49,21 +49,26 @@ class AVLTreeNode(object):
         its children are equally balanced so balance factor is 0'''
         if self.is_leaf():
             return 0
-        if self.is_leaf():
-            return 0
-        # Balance Factor
-        return self.right.height - self.left.height
+        elif self.contains_right_node() == False:
+            return-self.left.height - 1
+        elif self.contains_left_node() == False:
+            return self.right.height + 1
+        else:
+            return self.right.height - self.left.height
 
-    # def get_height(self, node):
-    #     """ A helper function that allows calling on a None child, 
-    #     returning 0 as the default height of a node is 1, a None
-    #     will be 0.
-    #     """
-    #     if node is None:
-    #         return 0
-        
-    #     return node.height()
-    
+    def get_height(self):
+        '''calculate/update node height'''
+        if self.is_leaf():
+            self.height = 0
+        elif not self.contains_left_node():
+            self.height = self.right.height + 1
+        elif not self.contains_right_node():
+            self.height = self.left.height + 1
+        else:
+            if self.left.height > self.right.height:
+                self.height = self.left.height + 1
+            else:
+                self.height = self.right.height + 1
         
     def add_height(self):
         """Return the height of this node (the number of edges on the longest
@@ -86,40 +91,18 @@ class AVLTreeNode(object):
         right_child = self.right
         self.right = right_child.left
         right_child.left = self
-        self.add_height()
-        right_child.update_height()
+        self.get_height()
+        right_child.get_height()
         return right_child
 
-    def right_rotation(self, node):
+    def right_rotation(self):
         # Same as left_rotation just reversed
         left_child = self.left
         self.left = left_child.right
         left_child.right = self
-        self.add_height()
-        left_child.add_height()
+        self.get_height()
+        left_child.get_height()
         return left_child
-
-
-        
-        # # Check if left child has a value and if so calculate its height
-        # # Check if right child has a value and if so calculate its height
-        # # Return one more than the greater of the left height and right height
-        # left_height = 0
-        # right_height = 0
-
-        # if self.left:
-        #     left_height = 1 + self.left.height()
-        # if self.right:
-        #     right_height = 1 + self.right.height()
-        
-        # # Call balance children after the recursion above finishes,
-        # # so it balances on its way up the tree.
-        # self.balance_children()
-
-        # if left_height > right_height:
-        #     return left_height
-        # else:
-        #     return right_height
 
 
 class AVLTree(object):
@@ -195,7 +178,7 @@ class AVLTree(object):
             else:
                 added_node = AVLTreeNode(item)
                 node.right = added_node
-        node.update_height()
+        node.get_height()
         return self.balance(node)
 
     def balance(self, node):
@@ -413,7 +396,8 @@ class AVLTree(object):
 
 def test_AVL_tree():
     # Create a complete AVL search tree of 3, 7, or 15 items in level-order
-    items = [7, 2, 6, 1, 3, 5, 4]
+    # items = [7, 2, 6, 1, 3, 5, 4]
+    items = ['betsy', 'erica', 'nya', 'faith', 'jasmine', 'stephanie',]
     # items = [4,2,6,1,3,5,7]
     # items = [8, 4, 12, 2, 6, 10, 14, 1, 3, 5, 7, 9, 11, 13, 15]
     print('items: {}'.format(items))
@@ -427,7 +411,7 @@ def test_AVL_tree():
         tree.insert(item)
         print('insert({}), size: {}'.format(item, tree.size))
     print('root: {}'.format(tree.root))
-
+    print(tree)
     print('\nSearching for items:')
     for item in items:
         result = tree.search(item)
@@ -438,17 +422,12 @@ def test_AVL_tree():
 
     print('\nTraversing items:')
     print('items in-order:    {}'.format(tree.items_in_order()))
-    print('items pre-order:   {}'.format(tree.items_pre_order()))
-    print('items post-order:  {}'.format(tree.items_post_order()))
+    
     print('items level-order: {}'.format(tree.items_level_order()))
 
-if __name__ == '__main__':
-    items = [2, 6, 4, 3]
-    tree = AVLTree(items)
     print(tree)
-    # print(tree)
-    # print(tree.root.left)
-    # print(tree.root.left.left)#!python
-    # print(tree.root.left.right)
-    # print(tree.root.left.right.left)
-    # print(tree.root.left.right.left.left)
+
+if __name__ == '__main__':
+    
+    test_AVL_tree()
+   
