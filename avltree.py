@@ -4,9 +4,9 @@ from queue import Queue
 
 class BinaryTreeNode(object):
 
-    def __init__(self, data):
+    def __init__(self, items=None):
         """Initialize this binary tree node with the given data."""
-        self.data = data
+        self.root = None
         self.left = None
         self.right = None
 
@@ -66,10 +66,10 @@ class BinaryTreeNode(object):
             return node
 
         # If the childs balance factor is left leaning
-        if self.get_balance(node) <= -2:
+        if self.get_balance(node) < -1:
             # If the child of the left child is also left unbalanced.
             # Only a single right rotation is needed
-            if self.get_balance(node.left) <= -1:
+            if self.get_balance(node.left) < -1:
                 return self.right_rotation(node)
 
             # If the child of the left child is right unbalanced
@@ -79,7 +79,7 @@ class BinaryTreeNode(object):
                 node.left = self.left_rotation(node.left)
                 return self.right_rotation(node)
 
-        elif self.get_balance(node) >= 2:
+        elif self.get_balance(node) > 1:
             # Same as above but reversed
             if self.get_balance(node.right) >= 1:
                 return self.left_rotation(node)

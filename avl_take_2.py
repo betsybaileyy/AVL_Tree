@@ -44,115 +44,90 @@ class AVLTreeNode(object):
         else:
             return False
 
-    def get_balance(self, node):
+    def get_balance(self):
         '''Similar to get height, if a None child is passed,
         its children are equally balanced so balance factor is 0'''
-        if node is None:
+        if self.is_leaf():
             return 0
-
+        if self.is_leaf():
+            return 0
         # Balance Factor
-        return self.get_height(node.right) - self.get_height(node.left)
+        return self.right.height - self.left.height
 
-    def get_height(self, node):
-        """ A helper function that allows calling on a None child, 
-        returning 0 as the default height of a node is 1, a None
-        will be 0.
-        """
-        if node is None:
-            return 0
+    # def get_height(self, node):
+    #     """ A helper function that allows calling on a None child, 
+    #     returning 0 as the default height of a node is 1, a None
+    #     will be 0.
+    #     """
+    #     if node is None:
+    #         return 0
         
-        return node.height()
+    #     return node.height()
     
- 
-    def balance_children(self):
-        # Calls balancer on both children
-        self.left = self.balancer(self.left)
-        self.right = self.balancer(self.right)
-
-    def balancer(self, node):
-        """ Simply checks all 4 possible unbalanced states.
-        If the node is unbalanced, do the rotation under the hood, and
-        importantly pass the new child back in the return statement to get
-        set in balance_children.
-        """
-        # If the child passed in was None,
-        # just give None back. No balancing needed.
-        if node is None:
-            return node
-
-        # If the childs balance factor is left leaning
-        if self.get_balance(node) <= -2:
-            # If the child of the left child is also left unbalanced.
-            # Only a single right rotation is needed
-            if self.get_balance(node.left) <= -1:
-                return self.right_rotation(node)
-
-            # If the child of the left child is right unbalanced
-            # A left rotation on that child will turn it into the case above
-            # Requiring only a single right rotation on the passed in child
+        
+    def add_height(self):
+        """Return the height of this node (the number of edges on the longest
+        downward path from this node to a descendant leaf node)."""
+        if self.is_leaf():
+            self.height = 0
+        elif not self.contains_left_node():
+            self.height = self.right.height + 1
+        elif not self.contains_right_node():
+            self.height = self.left.height + 1
+        else:
+            if self.left.height > self.right.height:
+                self.height = self.left.height + 1
             else:
-                node.left = self.left_rotation(node.left)
-                return self.right_rotation(node)
+                self.height = self.right.height + 1
 
-        elif self.get_balance(node) >= 2:
-            # Same as above but reversed
-            if self.get_balance(node.right) >= 1:
-                return self.left_rotation(node)
-
-            else:
-                node.right = self.right_rotation(node.right)
-                return self.left_rotation(node)
-
-        # If the node passed the if statements it means the child is already
-        # balanced. Then just return the original child to get put back.
-        return node
-
-    def left_rotation(self, node):
+    def left_rotation(self):
         ''' Set the original root as the left child of the original roots right
         child. Then return the original roots right child as the new root. '''
-        print('left rotation')
-        right_child = node.right
-        node.right = None
-        right_child.left = node
+        right_child = self.right
+        self.right = right_child.left
+        right_child.left = self
+        self.add_height()
+        right_child.update_height()
         return right_child
 
     def right_rotation(self, node):
         # Same as left_rotation just reversed
-        print('right rotation')
-        left_child = node.left
-        left_child.right = node
-
+        left_child = self.left
+        self.left = left_child.right
+        left_child.right = self
+        self.add_height()
+        left_child.add_height()
         return left_child
-        
-    def height(self):
-        """Return the height of this node (the number of edges on the longest
-        downward path from this node to a descendant leaf node)."""
-        # Check if left child has a value and if so calculate its height
-        # Check if right child has a value and if so calculate its height
-        # Return one more than the greater of the left height and right height
-        left_height = 0
-        right_height = 0
 
-        if self.left:
-            left_height = 1 + self.left.height()
-        if self.right:
-            right_height = 1 + self.right.height()
-        
-        # Call balance children after the recursion above finishes,
-        # so it balances on its way up the tree.
-        self.balance_children()
 
-        if left_height > right_height:
-            return left_height
-        else:
-            return right_height
+        
+        # # Check if left child has a value and if so calculate its height
+        # # Check if right child has a value and if so calculate its height
+        # # Return one more than the greater of the left height and right height
+        # left_height = 0
+        # right_height = 0
+
+        # if self.left:
+        #     left_height = 1 + self.left.height()
+        # if self.right:
+        #     right_height = 1 + self.right.height()
+        
+        # # Call balance children after the recursion above finishes,
+        # # so it balances on its way up the tree.
+        # self.balance_children()
+
+        # if left_height > right_height:
+        #     return left_height
+        # else:
+        #     return right_height
 
 
 class AVLTree(object):
 
     def __init__(self, items=None):
         """Initialize this AVL tree and insert the given items."""
-        self.root = AVLTreeNode(1000000)
+        # self.root = AVLTreeNode(1000000)
+        self.root = None
         self.size = 0
         if items is not None:
             for item in items:
@@ -187,29 +162,66 @@ class AVLTree(object):
         # Return the node's data if found, or None
         return node.data if node else None
 
-    def insert(self, item):
+    def is_empty(self):
+        return self.root is None
+
+    def insert(self, item, node=None):
         """Insert the given item in order into this tree."""
-        # Handle the case where the tree is empty
-        new_node = AVLTreeNode(item)
         if self.is_empty():
-            # Create a new root node
-            self.root = new_node
-            # Increase the tree size
+            self.root = AVLTreeNode(item)
             self.size += 1
             return
-        # Find the parent node of where the given item should be inserted
-        parent = self._find_parent_node_recursive(item, self.root)
-        # Check if the given item should be inserted left of parent node
-        if item < parent.data:
-            # Create a new node and set the parent's left child
-            parent.left = new_node
-        # Check if the given item should be inserted right of parent node
-        elif item > parent.data:
-            # Create a new node and set the parent's right child
-            parent.right = new_node
-        # Increase the tree size
-        self.size += 1
-        self.root.height()
+
+        if node is None:
+            node = self.root
+            self.size += 1
+
+        if item == node.data:
+            self.size -= 1
+            return
+        elif item < node.data:
+            if node.contains_left_node():
+                added_subtree = self.insert(item, node.left)
+                if added_subtree is not None:
+                    node.left = added_subtree
+            else:
+                added_node = AVLTreeNode(item)
+                node.left = added_node
+        else:
+            if node.contains_right_node():
+                added_subtree = self.insert(item, node.right)
+                if added_subtree is not None:
+                    node.right = added_subtree
+            else:
+                added_node = AVLTreeNode(item)
+                node.right = added_node
+        node.update_height()
+        return self.balance(node)
+
+
+        
+
+        # # Handle the case where the tree is empty
+        # new_node = AVLTreeNode(item)
+        # if self.is_empty():
+        #     # Create a new root node
+        #     self.root = new_node
+        #     # Increase the tree size
+        #     self.size += 1
+        #     return
+        # # Find the parent node of where the given item should be inserted
+        # parent = self._find_parent_node_recursive(item, self.root)
+        # # Check if the given item should be inserted left of parent node
+        # if item < parent.data:
+        #     # Create a new node and set the parent's left child
+        #     parent.left = new_node
+        # # Check if the given item should be inserted right of parent node
+        # elif item > parent.data:
+        #     # Create a new node and set the parent's right child
+        #     parent.right = new_node
+        # # Increase the tree size
+        # self.size += 1
+        # self.root.height()
 
     def _find_node_iterative(self, item):
         """Return the node containing the given item in this tree,
