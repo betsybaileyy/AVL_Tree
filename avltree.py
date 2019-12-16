@@ -4,9 +4,9 @@ from queue import Queue
 
 class BinaryTreeNode(object):
 
-    def __init__(self, items=None):
+    def __init__(self, data):
         """Initialize this binary tree node with the given data."""
-        self.root = None
+        self.data = data
         self.left = None
         self.right = None
 
@@ -30,12 +30,12 @@ class BinaryTreeNode(object):
             return False
 
     def get_balance(self, node):
-        '''Similar to get height, if a None child is passed,
-        its children are equally balanced so balance factor is 0'''
+        """ Similar to get_height, if a None child is passed,
+        its' 'children' are equally balanced so balance factor is 0.
+        """
         if node is None:
             return 0
-
-        # Balance Factor
+    # Balance Factor
         return self.get_height(node.right) - self.get_height(node.left)
 
     def get_height(self, node):
@@ -50,7 +50,7 @@ class BinaryTreeNode(object):
     
 
     def balance_children(self):
-        # Calls balancer on both children
+        """ Calls balancer on both children. """
         self.left = self.balancer(self.left)
         self.right = self.balancer(self.right)
 
@@ -60,27 +60,20 @@ class BinaryTreeNode(object):
         importantly pass the new child back in the return statement to get
         set in balance_children.
         """
-        # If the child passed in was None,
-        # just give None back. No balancing needed.
+        # If the child passed in was None, just give None back. No balancing
+        # needed.
         if node is None:
             return node
 
-        # If the childs balance factor is left leaning
-        if self.get_balance(node) < -1:
-            # If the child of the left child is also left unbalanced.
-            # Only a single right rotation is needed
-            if self.get_balance(node.left) < -1:
+        if self.get_balance(node) <= -2:
+            if self.get_balance(node.left) <= -1:
                 return self.right_rotation(node)
 
-            # If the child of the left child is right unbalanced
-            # A left rotation on that child will turn it into the case above
-            # Requiring only a single right rotation on the passed in child
             else:
                 node.left = self.left_rotation(node.left)
                 return self.right_rotation(node)
 
-        elif self.get_balance(node) > 1:
-            # Same as above but reversed
+        elif self.get_balance(node) >= 2:
             if self.get_balance(node.right) >= 1:
                 return self.left_rotation(node)
 
@@ -88,13 +81,9 @@ class BinaryTreeNode(object):
                 node.right = self.right_rotation(node.right)
                 return self.left_rotation(node)
 
-        # If the node passed the if statements it means the child is already
-        # balanced. Then just return the original child to get put back.
         return node
 
     def left_rotation(self, node):
-        ''' Set the original root as the left child of the original roots right
-        child. Then return the original roots right child as the new root. '''
         print('left rotation')
         right_child = node.right
         node.right = None
@@ -102,11 +91,10 @@ class BinaryTreeNode(object):
         return right_child
 
     def right_rotation(self, node):
-        # Same as left_rotation just reversed
         print('right rotation')
         left_child = node.left
+        node.left = None
         left_child.right = node
-
         return left_child
         
     def height(self):
@@ -123,8 +111,6 @@ class BinaryTreeNode(object):
         if self.right:
             right_height = 1 + self.right.height()
         
-        # Call balance children after the recursion above finishes,
-        # so it balances on its way up the tree.
         self.balance_children()
 
         if left_height > right_height:

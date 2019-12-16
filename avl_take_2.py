@@ -1,6 +1,8 @@
 #!python
 
 from queue import Queue
+# from draw_me import PrintBTree
+import random
 
 class AVLTreeNode(object):
 
@@ -103,6 +105,55 @@ class AVLTreeNode(object):
         self.get_height()
         left_child.get_height()
         return left_child
+    def display(self):
+        lines, _, _, _ = self._display_aux()
+        for line in lines:
+            print(line)
+
+    def _display_aux(self):
+        """Returns list of strings, width, height, and horizontal coordinate of the root."""
+        # No child.
+        if self.right is None and self.left is None:
+            line = '%s' % self.data
+            width = len(line)
+            height = 1
+            middle = width // 2
+            return [line], width, height, middle
+
+        # Only left child.
+        if self.right is None:
+            lines, n, p, x = self.left._display_aux()
+            s = '%s' % self.data
+            u = len(s)
+            first_line = (x + 1) * ' ' + (n - x - 1) * '_' + s
+            second_line = x * ' ' + '/' + (n - x - 1 + u) * ' '
+            shifted_lines = [line + u * ' ' for line in lines]
+            return [first_line, second_line] + shifted_lines, n + u, p + 2, n + u // 2
+
+        # Only right child.
+        if self.left is None:
+            lines, n, p, x = self.right._display_aux()
+            s = '%s' % self.data
+            u = len(s)
+            first_line = s + x * '_' + (n - x) * ' '
+            second_line = (u + x) * ' ' + '\\' + (n - x - 1) * ' '
+            shifted_lines = [u * ' ' + line for line in lines]
+            return [first_line, second_line] + shifted_lines, n + u, p + 2, u // 2
+
+        # Two children.
+        left, n, p, x = self.left._display_aux()
+        right, m, q, y = self.right._display_aux()
+        s = '%s' % self.data
+        u = len(s)
+        first_line = (x + 1) * ' ' + (n - x - 1) * '_' + s + y * '_' + (m - y) * ' '
+        second_line = x * ' ' + '/' + (n - x - 1 + u + y) * ' ' + '\\' + (m - y - 1) * ' '
+        if p < q:
+            left += [n * ' '] * (q - p)
+        elif q < p:
+            right += [m * ' '] * (p - q)
+        zipped_lines = zip(left, right)
+        lines = [first_line, second_line] + [a + u * ' ' + b for a, b in zipped_lines]
+        return lines, n + m + u, max(p, q) + 2, n + u // 2
 
 
 class AVLTree(object):
@@ -115,6 +166,27 @@ class AVLTree(object):
         if items is not None:
             for item in items:
                 self.insert(item)
+
+    #thank you Alan for this print sting function!!!!!!!
+    def __str__(self, node=None):
+        """Return a visual string representation of this binary search tree.
+        Performs depth-first traversal starting at the given node or root."""
+        if node is None:
+            if self.is_empty():  # Special case
+                return 'root -> None'
+            else:  # Start recursion at root node
+                return '\n'.join(self.__str__(self.root))
+        strings = []  # Accumulate separate strings since we need to pad them
+        if node.right is not None:  # Descend right subtree, if it exists
+            for right_string in self.__str__(node.right):
+                # Left-pad strings and replace ambiguous root with right link
+                strings.append(5 * ' ' + right_string.replace('->', '/-', 1))
+        strings.append('-> ({})'.format(repr(node.data)))  # This node's string
+        if node.left is not None:  # Descend left subtree, if it exists
+            for left_string in self.__str__(node.left):
+                # Left-pad strings and replace ambiguous root with left link
+                strings.append(5 * ' ' + left_string.replace('->', '\\-', 1))
+        return strings
 
     def __repr__(self):
         """Return a string representation of this AVL tree."""
@@ -145,8 +217,7 @@ class AVLTree(object):
         # Return the node's data if found, or None
         return node.data if node else None
 
-    def is_empty(self):
-        return self.root is None
+    
 
     def insert(self, item, node=None):
         """Insert the given item in order into this tree."""
@@ -393,13 +464,34 @@ class AVLTree(object):
             # Enqueue this node's right child, if it exists
             if node.right:
                 queue.enqueue(node.right)
+    
+    # def printTree(self):
+    #     PrintBTree(self,lambda n:(str(n.value),n.left,n.right))      
+
+
+
+# root.addValue(50)
+# root.addValue(90)
+# root.addValue(10)
+# root.addValue(60)
+# root.addValue(30)
+# root.addValue(70)
+# root.addValue(55)
+# root.addValue(5)
+# root.addValue(35)
+# root.addValue(85)
+
+# root.printTree()
 
 def test_AVL_tree():
     # Create a complete AVL search tree of 3, 7, or 15 items in level-order
     # items = [7, 2, 6, 1, 3, 5, 4]
-    items = ['betsy', 'erica', 'nya', 'faith', 'jasmine', 'stephanie',]
+    # items = ['betsy', 'erica', 'nya', 'faith', 'jasmine', 'stephanie',]
     # items = [4,2,6,1,3,5,7]
-    # items = [8, 4, 12, 2, 6, 10, 14, 1, 3, 5, 7, 9, 11, 13, 15]
+    items = [8, 4, 12, 2, 6, 10, 14, 1, 3, 5, 7, 9, 11, 13, 15]
+    # root = AVLTreeNode(items)
+    # for item in items:
+    #     tree.insert(item)
     print('items: {}'.format(items))
 
     tree = AVLTree()
@@ -428,6 +520,6 @@ def test_AVL_tree():
     print(tree)
 
 if __name__ == '__main__':
-    
-    test_AVL_tree()
+    tree = AVLTree()
+    print(tree)
    
