@@ -472,7 +472,8 @@ def test_AVL_tree():
 
 if __name__ == '__main__':
     items = [1,2,3,4,5,6,7,8,9]
+    students = ['Ali', 'Betsy', 'Cherish', 'Erica', 'Ikey', 'Jackson', 'Jake', 'Javier', 'Jayce', 'KJ', 'Luc', 'Lucia', 'Makhmud', 'Drew', 'Nathan', 'Nolan', 'Ruhsane', 'Ryan', 'Sam', 'Sukhrob', 'Thomas', 'Zurich']
     # items = ['betsy', 'erica', 'nya', 'faith', 'jasmine', 'stephanie',]
-    tree = AVLTree(items)
+    tree = AVLTree(students)
     print(tree)
    
