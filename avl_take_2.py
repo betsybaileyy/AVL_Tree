@@ -198,30 +198,27 @@ class AVLTree(object):
         node.update_height()
         return self.balance(node)
 
-
+    def balance(self, node):
+        bf = node.get_balance()
+        if bf < 2 and bf > -2: 
+            return None
+        if bf < -1:
+            if node.left.get_balance() < 0:
+                new_root = node.right_rotation()
+            else:
+                node.left = node.left.left_rotation()
+                new_root = node.right_rotation()
+        else:
+            if node.right.get_balance() > 0:
+                new_root = node.left_rotation()
+            else:
+                node.right = node.right.right_rotation()
+                new_root = node.left_rotate()
+        if node is self.root:
+            self.root = new_root
+        return new_root
         
 
-        # # Handle the case where the tree is empty
-        # new_node = AVLTreeNode(item)
-        # if self.is_empty():
-        #     # Create a new root node
-        #     self.root = new_node
-        #     # Increase the tree size
-        #     self.size += 1
-        #     return
-        # # Find the parent node of where the given item should be inserted
-        # parent = self._find_parent_node_recursive(item, self.root)
-        # # Check if the given item should be inserted left of parent node
-        # if item < parent.data:
-        #     # Create a new node and set the parent's left child
-        #     parent.left = new_node
-        # # Check if the given item should be inserted right of parent node
-        # elif item > parent.data:
-        #     # Create a new node and set the parent's right child
-        #     parent.right = new_node
-        # # Increase the tree size
-        # self.size += 1
-        # self.root.height()
 
     def _find_node_iterative(self, item):
         """Return the node containing the given item in this tree,
