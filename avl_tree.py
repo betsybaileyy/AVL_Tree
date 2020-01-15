@@ -118,7 +118,7 @@ class AVLTree(object):
             for item in items:
                 self.insert(item)
 
-    #thank you Alan for this print sting function!!!!!!!
+    # Thank you to Alan Davis for this print sting function!!!!!!!
     def __str__(self, node=None):
         """Return a visual string representation of this binary search tree.
         Performs depth-first traversal starting at the given node or root."""
@@ -313,11 +313,13 @@ class AVLTree(object):
         # Check if the given item is less than the node's data
         elif item < node.data:
             # Recursively descend to the node's left child, if it exists
-            return self._find_parent_node_recursive(item, node=node.left, parent=node)  # Hint: Remember to update the parent parameter
+            # Hint: Remember to update the parent parameter
+            return self._find_parent_node_recursive(item, node=node.left, parent=node)
         # Check if the given item is greater than the node's data
         elif item > node.data:
             # Recursively descend to the node's right child, if it exists
-            return self._find_parent_node_recursive(item, node=node.right, parent=node)  # Hint: Remember to update the parent parameter
+            # Hint: Remember to update the parent parameter
+            return self._find_parent_node_recursive(item, node=node.right, parent=node)
 
 
     def items_in_order(self):
@@ -471,9 +473,26 @@ def test_AVL_tree():
     print(tree)
 
 if __name__ == '__main__':
-    items = [1,2,3,4,5,6,7,8,9]
-    students = ['Ali', 'Betsy', 'Cherish', 'Erica', 'Ikey', 'Jackson', 'Jake', 'Javier', 'Jayce', 'KJ', 'Luc', 'Lucia', 'Makhmud', 'Drew', 'Nathan', 'Nolan', 'Ruhsane', 'Ryan', 'Sam', 'Sukhrob', 'Thomas', 'Zurich']
-    # items = ['betsy', 'erica', 'nya', 'faith', 'jasmine', 'stephanie',]
+
+    # We are using a list of our classmates as the input 
+    # to demonstrate our AVL Tree's functionality:
+    students = ['Ali', 'Betsy', 'Cherish', 'Erica', 'Ikey', 'Jackson', 
+    'Jake', 'Javier', 'Jayce', 'KJ', 'Luc', 'Lucia', 'Makhmud', 'Drew', 
+    'Nathan', 'Nolan', 'Ruhsane', 'Ryan', 'Sam', 'Sukhrob', 'Thomas', 'Zurich']
+    
+    # Now, we call AVLTree and pass in 'students' as the parameter.
+    # Then, we set the AVLTree this equal to a variable 'tree'. 
     tree = AVLTree(students)
+
+    # Once we run 'python3 avl_tree.py' in our terminal, we should see a
+    # balanced tree structure containing each student's name stored as a node.
     print(tree)
    
+
+
+
+
+
+
+      # items = ['betsy', 'erica', 'nya', 'faith', 'jasmine', 'stephanie',]
+     # items = [1,2,3,4,5,6,7,8,9]

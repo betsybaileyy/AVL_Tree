@@ -1,4 +1,4 @@
-![image info](./photos/AVL_TREES_HEADER.png)
+![Header that reads: AVL TREES, a friendly, self-balancing binary search tree](./photos/AVL_TREES_HEADER.png)
 ## Implementing an AVL Tree in Python
 
 An AVL Tree is a type of binary search tree (BST) that is able to balance itself. The AVL tree seeks to prevent a BST from its worst-case scenario:
@@ -11,3 +11,17 @@ An AVL Tree is a type of binary search tree (BST) that is able to balance itself
 
 ### How to:
 To see this AVL tree in action yourself clone into this repository and run `python3 avl_tree.py`
+
+### Running the Code
+
+We'll be using Python's beloved [__name__ == "__main__"](https://docs.python.org/3/library/__main__.html) to run our code and see it print in our terminal! For this example we've used the names of our classmates as the input. 
+
+<img src="photos/avl_tree_print_screenshot.png" alt="screenshot of a code block found in avl_tree.py that will print the AVL Tree in the terminal" width="700"/> <br>
+
+##### Now, in terminal, run the command `python3 avl_tree.py`. <br>
+##### Once run, terminal should output the list of names in a balanced binary tree! 
+
+<img src="photos/avl_tree_output_screenshot.png" alt="screenshot of a terminal output visualizing the balanced AVL tree" width="700"/>
+<br>
+
+##### At last, we are able to visualize our working AVL Tree.

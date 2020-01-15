@@ -1,6 +1,6 @@
 #!python
 
-from avltree import BinarySearchTree, BinaryTreeNode
+from avl_tree import BinarySearchTree, BinaryTreeNode
 import unittest
 
 
