@@ -1,3 +1,4 @@
+![image info](AVL_TREES_HEADER.png)
 # The AVL Tree: An Ever Efficient Binary Search Tree
 Betsy Bailey and Erica Naglik
 ### Our implementation of the AVL Tree: a self balancing binary search tree.
