@@ -1,4 +1,4 @@
-![image info](AVL_TREES_HEADER.png)
+![image info](./photos/AVL_TREES_HEADER.png)
 ## Implementing an AVL Tree in Python
 
 An AVL Tree is a type of binary search tree (BST) that is able to balance itself. The AVL tree seeks to prevent a BST from its worst-case scenario:

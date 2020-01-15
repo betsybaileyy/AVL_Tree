@@ -1,8 +1,10 @@
 .vscode
 .git
+unsuccessful_attempts
 tryme.py
 tryme2.py
 tryme3.py
 draw_me.py
 graphics.py
 visual_tree.py
+old_avl_not_working.py
